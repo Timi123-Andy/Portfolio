@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Name | Software engineer</title>
+<meta name="description" content="Portfolio of Your Name, software engineer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700&display=swap" rel="stylesheet">
+<script>
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem("theme"); } catch (e) {}
+    if (t !== "light" && t !== "dark") {
+      t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+    }
+    document.documentElement.dataset.theme = t;
+  })();
+</script>
+<style>
+  :root {
+    --bg: #0C111D;
+    --surface: #141B2B;
+    --line: #232C40;
+    --text: #E8EBF4;
+    --muted: #93A0B8;
+    --accent: #AEB9FF;
+    color-scheme: dark;
+  }
+  :root[data-theme="light"] {
+    --bg: #F6F7FB;
+    --surface: #FFFFFF;
+    --line: #DCE0EB;
+    --text: #151A28;
+    --muted: #586277;
+    --accent: #4457D8;
+    color-scheme: light;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color .3s, color .3s;
+  }
+
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+  .wrap {
+    width: 100%;
+    max-width: 1120px;
+    margin-inline: auto;
+    padding-inline: clamp(20px, 5vw, 48px);
+  }
+
+  /* Header */
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 28px;
+  }
+  .brand { font-weight: 700; letter-spacing: -0.01em; text-decoration: none; }
+  .header-end { display: flex; align-items: center; gap: 20px; }
+  .site-header { flex-wrap: wrap; row-gap: 12px; }
+  .site-header nav { display: flex; gap: 28px; }
+  .theme-toggle {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background: none;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: color .2s, border-color .2s;
+  }
+  .theme-toggle:hover { color: var(--text); border-color: var(--muted); }
+  .theme-toggle svg { width: 20px; height: 20px; }
+  .theme-toggle .icon-moon { display: none; }
+  :root[data-theme="light"] .theme-toggle .icon-sun { display: none; }
+  :root[data-theme="light"] .theme-toggle .icon-moon { display: block; }
+  @media (max-width: 520px) {
+    .header-end { gap: 12px; }
+    .site-header nav { gap: 16px; font-size: .95rem; }
+    .theme-toggle { width: 36px; height: 36px; }
+  }
+  .site-header nav a { color: var(--muted); text-decoration: none; transition: color .2s; }
+  .site-header nav a:hover { color: var(--text); }
+
+  /* Hero */
+  .hero { padding-block: clamp(56px, 11vw, 132px) clamp(56px, 9vw, 108px); }
+  .hero h1 {
+    margin: 0;
+    max-width: 14ch;
+    font-size: clamp(2.6rem, 8vw, 6rem);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.035em;
+    animation: rise .8s cubic-bezier(.2,.7,.2,1) both;
+  }
+  .hero .lede {
+    margin: 28px 0 0;
+    max-width: 48ch;
+    color: var(--muted);
+    font-size: 1.2rem;
+    animation: rise .8s .15s cubic-bezier(.2,.7,.2,1) both;
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* Section headings */
+  .section { padding-block: clamp(48px, 8vw, 96px); border-top: 1px solid var(--line); }
+  .section-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 36px; }
+  .section-head h2 { margin: 0; font-size: 1.5rem; font-weight: 500; letter-spacing: -0.02em; }
+  .section-head .count { color: var(--muted); }
+
+  /* Projects */
+  .work { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 72px); align-items: start; }
+  .list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .list li { border-bottom: 1px solid var(--line); }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: -12px 0 32px; }
+  .filters button {
+    padding: 4px 12px;
+    background: none;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    color: var(--muted);
+    font: inherit;
+    font-size: .95rem;
+    cursor: pointer;
+    transition: color .2s, border-color .2s, background .2s;
+  }
+  .filters button:hover { color: var(--text); border-color: var(--muted); }
+  .filters button[aria-pressed="true"] { background: var(--surface); border-color: var(--accent); color: var(--text); }
+
+  .row {
+    display: grid;
+    grid-template-columns: 4rem minmax(0, 1fr);
+    gap: 8px;
+    width: 100%;
+    padding: 24px 0;
+    background: none;
+    border: 0;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: opacity .2s;
+  }
+  .row .year { color: var(--muted); font-variant-numeric: tabular-nums; padding-top: 6px; font-size: .95rem; }
+  .row .title { display: block; font-size: 1.6rem; font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; transition: color .2s; }
+  .row .summary { display: block; margin-top: 6px; color: var(--muted); font-size: 1rem; max-width: 46ch; }
+  .row[aria-expanded="true"] .title { color: var(--accent); }
+
+  /* Preview panel (desktop) */
+  .panel {
+    position: sticky;
+    top: 24px;
+    overflow: hidden;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+  }
+  .panel.swap { animation: fade .35s ease both; }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+  .thumb {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    padding: 20px;
+    overflow: hidden;
+    object-fit: cover;
+    background:
+      radial-gradient(120% 90% at 8% 0%, hsl(var(--h) 85% 60% / .9), transparent 60%),
+      radial-gradient(90% 90% at 100% 100%, hsl(calc(var(--h) + 55) 75% 48% / .8), transparent 60%),
+      var(--surface);
+  }
+  .thumb::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.07) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  .thumb::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(12,17,29,.8), transparent 65%);
+  }
+  .thumb span {
+    position: relative;
+    z-index: 1;
+    font-size: 1.7rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: #fff;
+  }
+  img.thumb::before, img.thumb::after { content: none; }
+
+  .info { padding: 24px; }
+  .info p { margin: 0 0 18px; max-width: 52ch; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0 0 20px; padding: 0; }
+  .tags li { padding: 3px 10px; border: 1px solid var(--line); border-radius: 6px; color: var(--muted); font-size: .9rem; }
+  .links { display: flex; flex-wrap: wrap; gap: 20px; }
+  .links a { color: var(--accent); text-underline-offset: 4px; }
+  .links a:hover { text-decoration-thickness: 2px; }
+
+  .detail { display: none; }
+
+  @media (min-width: 900px) {
+    .row { opacity: .55; }
+    .row[aria-expanded="true"], .row:hover { opacity: 1; }
+  }
+
+  @media (max-width: 899px) {
+    .work { grid-template-columns: 1fr; }
+    .panel { display: none; }
+    .row[aria-expanded="true"] + .detail { display: block; padding: 0 0 24px; }
+    .detail .thumb { border-radius: 12px; }
+    .detail .info { padding: 18px 0 0; }
+    .row { grid-template-columns: 3.25rem minmax(0, 1fr); }
+  }
+
+  /* About */
+  .about { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 72px); }
+  .about p { margin: 0 0 18px; max-width: 58ch; }
+  .skills { margin: 0; display: grid; gap: 14px; }
+  .skills div { padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+  .skills dt { color: var(--muted); font-size: .95rem; }
+  .skills dd { margin: 2px 0 0; }
+  @media (max-width: 899px) { .about { grid-template-columns: 1fr; } }
+
+  /* Contact */
+  .contact p { margin: 0 0 20px; color: var(--muted); max-width: 46ch; }
+  .email {
+    display: inline-block;
+    font-size: clamp(1.6rem, 5.5vw, 3.4rem);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    text-decoration: underline;
+    text-decoration-color: var(--line);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 8px;
+    transition: text-decoration-color .2s, color .2s;
+  }
+  .email:hover { color: var(--accent); text-decoration-color: var(--accent); }
+  .social { display: flex; gap: 24px; margin-top: 28px; }
+  .social a { color: var(--muted); text-underline-offset: 4px; }
+  .social a:hover { color: var(--text); }
+
+  footer { padding-block: 40px 56px; color: var(--muted); font-size: .95rem; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="site-header">
+    <a class="brand" href="#top">Timileyin Sunday</a>
+    <div class="header-end">
+      <nav aria-label="Primary">
+        <a href="#projects">Projects</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light mode">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <h1>Hi, I'm Timileyin - a Front-End Developer.</h1>
+      <p class="lede">I build responsive, user-friendly websites with clean designs and functional interfaces. I work with HTML, CSS, JavaScript, React, and Tailwind CSS, and I'm constantly learning and exploring new technologies to improve my crafts  .</p>
+    </section>
+
+    <section class="section" id="projects" aria-labelledby="projects-title">
+      <div class="section-head">
+        <h2 id="projects-title">Projects</h2>
+        <span class="count" id="count"></span>
+      </div>
+      <div class="filters" id="filters" role="group" aria-label="Filter projects by tech stack"></div>
+      <div class="work">
+        <ul class="list" id="list"></ul>
+        <aside class="panel" id="panel" aria-live="polite" aria-label="Project details"></aside>
+      </div>
+    </section>
+
+    <section class="section" id="about" aria-labelledby="about-title">
+      <div class="section-head"><h2 id="about-title">About</h2></div>
+      <div class="about">
+        <div>
+          <p>I'm a Computer Science graduate and aspiring Front-End Developer passionate about building clean, reponsive, user-friendly websites. I enjoy turning ideas into functional web experiences using modern web technologies.</p>
+          <p>I work with HTML, CSS, JavaScript, React, and Tailwind CSS. I'm currently improving my development skills through hands-on projects and looking forward to collaborating on exciting web development projects.</p>
+        </div>
+        <dl class="skills">
+          <div><dt>Languages</dt><dd>HTML, CSS, JavaScript</dd></div>
+          <div><dt>Frontend</dt><dd>React, Tailwind CSS</dd></div>
+          <div><dt>Tools</dt><dd>Git, GitHub, VS Code</dd></div>
+          <div><dt>Other Skills</dt><dd>Graphic Design, Data Entry, IT support</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="section contact" id="contact" aria-labelledby="contact-title">
+      <div class="section-head"><h2 id="contact-title">Contact</h2></div>
+      <p>I'm open to new projects and full-time roles. Email me and I'll reply within a couple of days.</p>
+      <a class="email" href="mailto:andynate163@gmail.com">andynate163@gmail.com</a>
+      <div class="social">
+        <a href="https://github.com/yourname" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://linkedin.com/in/yourname" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>&copy; <span id="year"></span> Timileyin Sunday</footer>
+</div>
+
+<script>
+  /* ------------------------------------------------------------
+     EDIT HERE: replace these sample projects with your own.
+     - image: optional path or URL to a screenshot (leave "" to use
+       the generated gradient cover)
+     - hue: 0-360, sets the cover color when there is no image
+     - live / source: leave "" to hide that link
+     ------------------------------------------------------------ */
+  const PROJECTS = [
+    {
+      title: "Artistry Haven",
+      year: 2025,
+      summary: "A creative art showcase website designed to celebrate creativity and showcase different forms of artistic expression",
+      description: "Artistry Haven is a responsive art showcase website featuring collection of paintings, sculptures, and digital artwork. It includes an immage gallery , client testimonials, team profiles, and contact information, providing visitors with an engaging way to ecplore the world of art..",
+      stack: ["HTML", "CSS"],
+      live: "https://artistryhaven.netlify.app",
+      source: "https://github.com/Timi123-Andy/Artistry-haven.git",
+      hue: 225, image: ""
+    },
+    {
+      title: "FeedMall Restaurant",
+      year: 2025,
+      summary: "A responsive retaurant website designed to make fook discovery and online ordering simple, convenient, and enjoyable",
+      description: "FeeMAll is modern restaurant ordering website that allows users to explore food menus, search and filter meals by category, add items to a shopping cart, mobile-friendly navigation, and a clean, user-friendly interface. The project demonstrates my ability to build functional and responsive web applications using front-end technologies",
+      stack: ["HTML", "CSS", "JavaScript"],
+      live: "https://timi123-andy,github.io/Project-RestaurantsWeb/",
+      source: "https://github.com/Project-Restaurantweb.git",
+      hue: 160, image: ""
+    },
+    /*
+    {
+      title: "Pocket Atlas",
+      year: 2024,
+      summary: "Offline-first maps app for hikers.",
+      description: "Download a region once and navigate without signal. Tracks routes, elevation, and trail conditions reported by other hikers.",
+      stack: ["Swift", "SQLite", "MapLibre"],
+      live: "https://example.com",
+      source: "",
+      hue: 25, image: ""
+    },
+    {
+      title: "Quillbase",
+      year: 2024,
+      summary: "Markdown notes with fast full-text search.",
+      description: "A notes app that stores plain Markdown files and indexes them locally, so search stays instant with tens of thousands of notes.",
+      stack: ["Rust", "Tauri", "Svelte"],
+      live: "https://example.com",
+      source: "https://github.com/yourname/quillbase",
+      hue: 290, image: ""
+    },
+    {
+      title: "Tidewatch",
+      year: 2023,
+      summary: "Uptime and latency monitoring for small teams.",
+      description: "Checks endpoints from three regions, charts response times, and sends an alert to Slack when something slows down or fails.",
+      stack: ["Node", "PostgreSQL", "Redis"],
+      live: "https://example.com",
+      source: "",
+      hue: 195, image: ""
+    },
+    {
+      title: "Fieldnotes API",
+      year: 2022,
+      summary: "REST API for a field-research data collection app.",
+      description: "Handles offline sync, conflict resolution, and exports for about 200 researchers collecting data in areas with poor coverage.",
+      stack: ["Python", "FastAPI", "AWS"],
+      live: "",
+      source: "https://github.com/yourname/fieldnotes-api",
+      hue: 340, image: ""
+    }
+    */
+  ];
+
+  const list = document.getElementById("list");
+  const panel = document.getElementById("panel");
+  const desktop = window.matchMedia("(min-width: 900px)");
+  let active = -1;
+
+  document.getElementById("year").textContent = new Date().getFullYear();
+  document.getElementById("count").textContent =
+    PROJECTS.length + (PROJECTS.length === 1 ? " project" : " projects");
+
+  function visual(p) {
+    if (p.image) return `<img class="thumb" src="${p.image}" alt="Screenshot of ${p.title}">`;
+    return `<div class="thumb" style="--h:${p.hue}" aria-hidden="true"><span>${p.title}</span></div>`;
+  }
+
+  function info(p) {
+    const links = [];
+    if (p.live) links.push(`<a href="${p.live}" target="_blank" rel="noopener">View live site</a>`);
+    if (p.source) links.push(`<a href="${p.source}" target="_blank" rel="noopener">Read the source</a>`);
+    return `<div class="info">
+      <p>${p.description}</p>
+      <ul class="tags">${p.stack.map(s => `<li>${s}</li>`).join("")}</ul>
+      ${links.length ? `<div class="links">${links.join("")}</div>` : ""}
+    </div>`;
+  }
+
+  const detail = p => visual(p) + info(p);
+
+  const rows = PROJECTS.map((p, i) => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <button class="row" type="button" aria-expanded="false" aria-controls="detail-${i}">
+        <span class="year">${p.year}</span>
+        <span class="head">
+          <span class="title">${p.title}</span>
+          <span class="summary">${p.summary}</span>
+        </span>
+      </button>
+      <div class="detail" id="detail-${i}">${detail(p)}</div>`;
+    list.appendChild(li);
+
+    const row = li.querySelector(".row");
+    row.addEventListener("click", () => {
+      if (!desktop.matches && active === i) select(-1);
+      else select(i);
+    });
+    row.addEventListener("pointerenter", e => {
+      if (desktop.matches && e.pointerType === "mouse") select(i);
+    });
+    row.addEventListener("focus", () => {
+      if (desktop.matches) select(i);
+    });
+    return row;
+  });
+
+  function select(i) {
+    if (i === active) return;
+    active = i;
+    rows.forEach((r, n) => r.setAttribute("aria-expanded", String(n === i)));
+    if (i >= 0) {
+      panel.innerHTML = detail(PROJECTS[i]);
+      panel.classList.remove("swap");
+      void panel.offsetWidth;
+      panel.classList.add("swap");
+    }
+  }
+
+  /* Tech stack filter: built automatically from the stack lists above */
+  const filtersEl = document.getElementById("filters");
+  const countEl = document.getElementById("count");
+  const allTags = [...new Set(PROJECTS.flatMap(p => p.stack))]
+    .sort((a, b) => a.localeCompare(b));
+
+  ["All", ...allTags].forEach(tag => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = tag;
+    b.dataset.tag = tag;
+    b.addEventListener("click", () => applyFilter(tag));
+    filtersEl.appendChild(b);
+  });
+
+  function applyFilter(tag) {
+    const visible = [];
+    PROJECTS.forEach((p, i) => {
+      const show = tag === "All" || p.stack.includes(tag);
+      rows[i].parentElement.hidden = !show;
+      if (show) visible.push(i);
+    });
+    filtersEl.querySelectorAll("button").forEach(b =>
+      b.setAttribute("aria-pressed", String(b.dataset.tag === tag)));
+    countEl.textContent = tag === "All"
+      ? PROJECTS.length + (PROJECTS.length === 1 ? " project" : " projects")
+      : visible.length + " of " + PROJECTS.length + " projects";
+    if (!visible.includes(active)) {
+      active = -2;
+      select(desktop.matches ? visible[0] : -1);
+    }
+  }
+
+  select(desktop.matches ? 0 : -1);
+  applyFilter("All");
+  desktop.addEventListener("change", () => {
+    const keep = active;
+    active = -2;
+    select(desktop.matches ? Math.max(keep, 0) : keep);
+  });
+
+  /* Dark / light toggle: remembers the choice between visits */
+  const root = document.documentElement;
+  const themeBtn = document.getElementById("theme-toggle");
+
+  function setTheme(theme, save) {
+    root.dataset.theme = theme;
+    themeBtn.setAttribute("aria-label",
+      theme === "light" ? "Switch to dark mode" : "Switch to light mode");
+    if (save) {
+      try { localStorage.setItem("theme", theme); } catch (e) {}
+    }
+  }
+
+  setTheme(root.dataset.theme, false);
+  themeBtn.addEventListener("click", () =>
+    setTheme(root.dataset.theme === "light" ? "dark" : "light", true));
+</script>
+</body>
+</html>
